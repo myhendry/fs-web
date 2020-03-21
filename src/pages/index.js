@@ -1,21 +1,35 @@
 import React from "react"
 import { Link } from "gatsby"
+import { connect } from "react-redux"
 
-import Layout from "../components/layout"
+import { Container } from "../components/common"
 import Image from "../components/image"
 import SEO from "../components/seo"
+import { toggleDarkMode } from "../redux/actions"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+const IndexPage = props => {
+  return (
+    <Container>
+      <SEO title="Home" />
+      <div>
+        <button
+          style={
+            props.isDarkMode ? { background: "black", color: "white" } : null
+          }
+          onClick={() => props.dispatch(toggleDarkMode(!props.isDarkMode))}
+        >
+          Using Redux
+        </button>
+      </div>
+      <div>
+        <Link to="/account">Go to your account</Link>
+      </div>
+    </Container>
+  )
+}
 
-export default IndexPage
+export default connect(state => {
+  return {
+    isDarkMode: state.test.isDarkMode,
+  }
+}, null)(IndexPage)

@@ -1,7 +1,18 @@
-/**
- * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/ssr-apis/
- */
+const React = require("react")
+const { ApolloProvider } = require("@apollo/react-hooks")
 
-// You can delete this file if you're not using it
+const Layout = require("./src/components/layout").default
+const ReduxWrapper = require("./src/utils/redux/ReduxWrapper").default
+const client = require("./src/utils/apollo/client")
+
+export const wrapPageElement = ({ element, props }) => {
+  return <Layout {...props}>{element}</Layout>
+}
+
+export const wrapRootElement = props => {
+  return (
+    <ApolloProvider client={client}>
+      <ReduxWrapper {...props} />
+    </ApolloProvider>
+  )
+}
