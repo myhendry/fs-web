@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "gatsby"
 import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks"
-import { Formik } from "formik"
+import { Formik, Form, Field } from "formik"
 import * as Yup from "yup"
 
 import {
   Container,
-  Form,
-  FormField,
-  Input,
+  // Form,
+  // FormField,
+  // Input,
   ErrorMessage,
   Button,
 } from "../components/common"
@@ -52,19 +52,24 @@ const Main = () => {
     }
   }, [subscribeToMore])
 
-  const handleSubmit = async ({ title, author }, bag) => {
+  const handleSubmit = async (
+    { title, author },
+    { resetForm, setSubmitting, setErrors }
+  ) => {
     try {
-      bag.setSubmitting(true)
+      setSubmitting(true)
+      // setTimeout(() => {
+      //   console.log("yes")
+      // }, 3000)
       await addBook({
         variables: { title, author },
         // refetchQueries: [{ query: GET_BOOK_QUERY }],
       })
-      bag.setSubmitting(false)
-      bag.resetForm({})
+      resetForm({})
     } catch (error) {
-      console.log(error)
-      bag.setSubmitting(false)
-      bag.setErrors(error)
+      resetForm()
+      setSubmitting(false)
+      setErrors(error)
     }
   }
 
@@ -97,30 +102,19 @@ const Main = () => {
           isValid,
         }) => (
           <Form onSubmit={handleSubmit}>
-            <FormField>
-              <Input
-                name="title"
-                placeholder="Title"
-                values={values.title}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+            <div>
+              <Field name="title" placeholder="Title" />
               {errors.title && touched.title && <div>{errors.title}</div>}
-            </FormField>
-            <FormField>
-              <Input
-                name="author"
-                placeholder="author"
-                values={values.author}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+            </div>
+            <div>
+              <Field name="author" placeholder="Author" />
               {errors.author && touched.author && <div>{errors.author}</div>}
-            </FormField>
-            {/* <Message error header="Oops!" content={errors.message} /> */}
-            <Button loading={isSubmitting} disabled={!isValid || isSubmitting}>
-              Submit
-            </Button>
+            </div>
+            <div>
+              {errors.message && <ErrorMessage>Unable to Submit</ErrorMessage>}
+            </div>
+
+            <Button disabled={!isValid || isSubmitting}>Submit</Button>
           </Form>
         )}
       </Formik>
