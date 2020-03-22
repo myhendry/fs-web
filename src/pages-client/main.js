@@ -1,12 +1,25 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "gatsby"
-import { useQuery, useSubscription } from "@apollo/react-hooks"
+import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks"
 
-import { Container } from "../components/common"
+import {
+  Container,
+  Form,
+  FormField,
+  Input,
+  ErrorMessage,
+  Button,
+} from "../components/common"
 import { GET_BOOKS_QUERY } from "../graphql/queries"
+import { ADD_BOOK_MUTATION } from "../graphql/mutations"
 import { BOOK_ADDED_SUBSCRIPTION } from "../graphql/subscriptions"
 
 const Main = () => {
+  const [title, setTitle] = useState("")
+  const [author, setAuthor] = useState("")
+  const [success, setSuccess] = useState(false)
+
+  const [addBook, { data: dataPostMutation }] = useMutation(ADD_BOOK_MUTATION)
   const { loading, error, data, subscribeToMore } = useQuery(GET_BOOKS_QUERY)
   const { data: subscribedData, loading: subscribedLoading } = useSubscription(
     BOOK_ADDED_SUBSCRIPTION
@@ -26,10 +39,10 @@ const Main = () => {
           return {
             ...prev,
             getBooks: [
-              ...prev.getBooks,
               {
                 ...newBook,
               },
+              ...prev.getBooks,
             ],
           }
         }
@@ -43,8 +56,48 @@ const Main = () => {
 
   return (
     <Container>
-      <h1>Using Apollo GraphQL Client</h1>
-      <h4>New info: {!subscribedLoading && subscribedData.bookAdded.title}</h4>
+      <h1>Add</h1>
+      <Form
+        onSubmit={e => {
+          e.preventDefault()
+          console.log(title, author)
+          addBook({
+            variables: { title, author },
+            // refetchQueries: [{ query: GET_BOOK_QUERY }],
+          }).then(() => {
+            setTitle("")
+            setAuthor("")
+          })
+        }}
+      >
+        <FormField>
+          <Input
+            placeholder="Title"
+            value={title}
+            onChange={e => {
+              e.persist()
+              setSuccess(false)
+              setTitle(e.target.value)
+            }}
+          />
+        </FormField>
+        <FormField>
+          <Input
+            placeholder="Author"
+            value={author}
+            onChange={e => {
+              e.persist()
+              setSuccess(false)
+              setAuthor(e.target.value)
+            }}
+          />
+        </FormField>
+        {!!success && <span>New Book Added Successfully</span>}
+        <Button block type="submit">
+          Add New Book
+        </Button>
+      </Form>
+      <h1>Subscriptions</h1>
       <h5>
         GraphQL Server on{" "}
         <a
@@ -54,6 +107,8 @@ const Main = () => {
           Hendry's GraphQL Server
         </a>
       </h5>
+      <h2>New info: {!subscribedLoading && subscribedData.bookAdded.title}</h2>
+
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
       {data &&
