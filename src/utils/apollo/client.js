@@ -17,7 +17,7 @@ https://github.com/apollographql/subscriptions-transport-ws/issues/333
 // const WS_URI = `ws://localhost:4000/graphql`
 
 const HTTP_URI = `https://hendry-gql-server.herokuapp.com/graphql`
-const WS_URI = `ws://hendry-gql-server.herokuapp.com/graphql`
+const WS_URI = `wss://hendry-gql-server.herokuapp.com/graphql`
 
 const isBrowser = () => typeof window !== "undefined"
 
@@ -55,16 +55,18 @@ const authLink = isBrowser()
     })
   : null
 
-const errorLink = onError(({ networkError, graphQLErrors }) => {
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    )
-  }
-  if (networkError) console.log(`[Network error]: ${networkError}`)
-})
+const errorLink = isBrowser()
+  ? onError(({ networkError, graphQLErrors }) => {
+      if (graphQLErrors) {
+        graphQLErrors.map(({ message, locations, path }) =>
+          console.log(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+          )
+        )
+      }
+      if (networkError) console.log(`[Network error]: ${networkError}`)
+    })
+  : null
 
 const link = isBrowser()
   ? split(

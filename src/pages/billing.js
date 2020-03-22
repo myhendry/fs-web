@@ -1,10 +1,12 @@
 import React from "react"
 
+import { Container } from "../components/common"
+
 const Billing = () => {
   return (
-    <div>
+    <Container>
       <h1>Billing</h1>
-    </div>
+    </Container>
   )
 }
 
