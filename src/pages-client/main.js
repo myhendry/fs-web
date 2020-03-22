@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "gatsby"
 import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks"
+import { Formik } from "formik"
+import * as Yup from "yup"
 
 import {
   Container,
@@ -15,10 +17,6 @@ import { ADD_BOOK_MUTATION } from "../graphql/mutations"
 import { BOOK_ADDED_SUBSCRIPTION } from "../graphql/subscriptions"
 
 const Main = () => {
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [success, setSuccess] = useState(false)
-
   const [addBook, { data: dataPostMutation }] = useMutation(ADD_BOOK_MUTATION)
   const { loading, error, data, subscribeToMore } = useQuery(GET_BOOKS_QUERY)
   const { data: subscribedData, loading: subscribedLoading } = useSubscription(
@@ -54,49 +52,79 @@ const Main = () => {
     }
   }, [subscribeToMore])
 
+  const handleSubmit = async ({ title, author }, bag) => {
+    try {
+      bag.setSubmitting(true)
+      await addBook({
+        variables: { title, author },
+        // refetchQueries: [{ query: GET_BOOK_QUERY }],
+      })
+      bag.setSubmitting(false)
+      bag.resetForm({})
+    } catch (error) {
+      console.log(error)
+      bag.setSubmitting(false)
+      bag.setErrors(error)
+    }
+  }
+
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required(),
+    author: Yup.string()
+      .min(3)
+      .required(),
+  })
+
   return (
     <Container>
       <h1>Add</h1>
-      <Form
-        onSubmit={e => {
-          e.preventDefault()
-          console.log(title, author)
-          addBook({
-            variables: { title, author },
-            // refetchQueries: [{ query: GET_BOOK_QUERY }],
-          }).then(() => {
-            setTitle("")
-            setAuthor("")
-          })
+      <Formik
+        initialValues={{
+          title: "",
+          author: "",
         }}
+        onSubmit={handleSubmit}
+        validationSchema={validationSchema}
       >
-        <FormField>
-          <Input
-            placeholder="Title"
-            value={title}
-            onChange={e => {
-              e.persist()
-              setSuccess(false)
-              setTitle(e.target.value)
-            }}
-          />
-        </FormField>
-        <FormField>
-          <Input
-            placeholder="Author"
-            value={author}
-            onChange={e => {
-              e.persist()
-              setSuccess(false)
-              setAuthor(e.target.value)
-            }}
-          />
-        </FormField>
-        {!!success && <span>New Book Added Successfully</span>}
-        <Button block type="submit">
-          Add New Book
-        </Button>
-      </Form>
+        {({
+          errors,
+          touched,
+          values,
+          handleChange,
+          handleSubmit,
+          handleBlur,
+          isSubmitting,
+          isValid,
+        }) => (
+          <Form onSubmit={handleSubmit}>
+            <FormField>
+              <Input
+                name="title"
+                placeholder="Title"
+                values={values.title}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.title && touched.title && <div>{errors.title}</div>}
+            </FormField>
+            <FormField>
+              <Input
+                name="author"
+                placeholder="author"
+                values={values.author}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.author && touched.author && <div>{errors.author}</div>}
+            </FormField>
+            {/* <Message error header="Oops!" content={errors.message} /> */}
+            <Button loading={isSubmitting} disabled={!isValid || isSubmitting}>
+              Submit
+            </Button>
+          </Form>
+        )}
+      </Formik>
+
       <h1>Subscriptions</h1>
       <h5>
         GraphQL Server on{" "}
