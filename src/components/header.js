@@ -21,9 +21,9 @@ const Header = ({ siteTitle }) => {
           {siteTitle}
         </Link>
       </Logo>
-      <Intro>{user.name ? `Hi, ${user.name}` : ""}</Intro>
+      <Intro>{user.email ? `Hi, ${user.email}` : ""}</Intro>
       <Nav>
-        {user.name && (
+        {user.email && (
           <>
             <StyledLink to={`/account`}>Main</StyledLink>
             <StyledLink to={`/account/settings`}>Setting</StyledLink>
