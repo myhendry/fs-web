@@ -2,9 +2,9 @@ import React from "react"
 import { Router } from "@reach/router"
 import { login, isAuthenticated, getProfile } from "../utils/auth0/auth"
 
-import Main from "./main"
-import Billing from "./billing"
-import Settings from "./settings"
+import Main from "../pages-client/main"
+import Billing from "../pages-client/billing"
+import Settings from "../pages-client/settings"
 
 const Account = () => {
   if (!isAuthenticated()) {

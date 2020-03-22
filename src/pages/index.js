@@ -9,8 +9,8 @@ import { toggleDarkMode } from "../redux/actions"
 
 const IndexPage = props => {
   /*
-http://localhost:8000, https://hendry-gatsby.netlify.com, http://localhost:9000
-http://localhost:8000/callback, https://hendry-gatsby.netlify.com/callback, http://localhost:9000/callback
+http://localhost:8000, https://hendry-gatsby.netlify.com, http://localhost:9000, https://sad-knuth-ec815e.netlify.com
+http://localhost:8000/callback, https://hendry-gatsby.netlify.com/callback, http://localhost:9000/callback, https://sad-knuth-ec815e.netlify.com/callback
 */
 
   return (
