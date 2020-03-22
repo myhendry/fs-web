@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Button = styled.button`
-  padding: 8px 16px;
+  padding: 8px 20px;
   background: rebeccapurple;
   color: white;
   border-radius: 4px;

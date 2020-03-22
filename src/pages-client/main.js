@@ -3,15 +3,9 @@ import { Link } from "gatsby"
 import { useQuery, useMutation, useSubscription } from "@apollo/react-hooks"
 import { Formik, Form, Field } from "formik"
 import * as Yup from "yup"
+import styled from "styled-components"
 
-import {
-  Container,
-  // Form,
-  // FormField,
-  // Input,
-  ErrorMessage,
-  Button,
-} from "../components/common"
+import { Container, ErrorMessage, Button } from "../components/common"
 import { GET_BOOKS_QUERY } from "../graphql/queries"
 import { ADD_BOOK_MUTATION } from "../graphql/mutations"
 import { BOOK_ADDED_SUBSCRIPTION } from "../graphql/subscriptions"
@@ -102,17 +96,20 @@ const Main = () => {
           isValid,
         }) => (
           <Form onSubmit={handleSubmit}>
-            <div>
-              <Field name="title" placeholder="Title" />
-              {errors.title && touched.title && <div>{errors.title}</div>}
-            </div>
-            <div>
-              <Field name="author" placeholder="Author" />
-              {errors.author && touched.author && <div>{errors.author}</div>}
-            </div>
-            <div>
-              {errors.message && <ErrorMessage>Unable to Submit</ErrorMessage>}
-            </div>
+            <FormField>
+              <FormikField name="title" placeholder="Title" />
+              {errors.title && touched.title && (
+                <ErrorMessage>{errors.title}</ErrorMessage>
+              )}
+            </FormField>
+            <FormField>
+              <FormikField name="author" placeholder="Author" />
+              {errors.author && touched.author && (
+                <ErrorMessage>{errors.author}</ErrorMessage>
+              )}
+            </FormField>
+
+            {errors.message && <ErrorMessage>Unable to Submit</ErrorMessage>}
 
             <Button disabled={!isValid || isSubmitting}>Submit</Button>
           </Form>
@@ -144,5 +141,22 @@ const Main = () => {
     </Container>
   )
 }
+
+const FormField = styled.div``
+
+const FormikField = styled(Field)`
+  display: block;
+  width: 50%;
+  padding: 8px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  box-shadow: none;
+  &:focus,
+  &:active {
+    border: 1px solid rebeccapurple;
+  }
+`
 
 export default Main
