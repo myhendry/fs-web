@@ -5,11 +5,12 @@ import { Container } from "../components/common"
 import { GET_TASKS_QUERY } from "../graphql/queries"
 
 const Settings = () => {
-  const { loading, error, data } = useQuery(GET_TASKS_QUERY)
+  // const { loading, error, data } = useQuery(GET_TASKS_QUERY)
 
   return (
     <Container>
-      {loading && <p>Loading...</p>}
+      <h1>Settings</h1>
+      {/* {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
       {data &&
         data.getTasks.map(x => {
@@ -18,7 +19,7 @@ const Settings = () => {
               {x.name} - {x.user.email}
             </p>
           )
-        })}
+        })} */}
     </Container>
   )
 }

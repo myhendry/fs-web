@@ -16,7 +16,7 @@ const Account = () => {
 
   return (
     <Router>
-      <Main path="/account/" user={user} />
+      <Main path="/account" user={user} />
       <Settings path="/account/settings" />
       <Billing path="/account/billing" />
     </Router>

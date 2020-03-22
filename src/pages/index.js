@@ -8,6 +8,11 @@ import SEO from "../components/seo"
 import { toggleDarkMode } from "../redux/actions"
 
 const IndexPage = props => {
+  /*
+http://localhost:8000, https://hendry-gatsby.netlify.com, http://localhost:9000
+http://localhost:8000/callback, https://hendry-gatsby.netlify.com/callback, http://localhost:9000/callback
+*/
+
   return (
     <Container>
       <SEO title="Home" />
