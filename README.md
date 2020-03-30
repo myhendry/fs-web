@@ -1,7 +1,11 @@
+**TROUBLESHOOT**
+
+Env Variables
+Expired token
+
 ```
 http://localhost:8000/callback
 http://localhost:9000/callback
-https://hendry-gatsby.netlify.com/callback
-https://sad-knuth-ec815e.netlify.com/callback
+https://hendry-gatsby-gql.netlify.com/callback
 
 ```

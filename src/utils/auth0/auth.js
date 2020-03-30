@@ -81,5 +81,6 @@ export const silentAuth = callback => {
 
 export const logout = () => {
   localStorage.setItem("isLoggedIn", false)
+  localStorage.setItem("token", null)
   auth.logout()
 }

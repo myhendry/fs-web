@@ -3,7 +3,6 @@ import { Link } from "gatsby"
 import { connect } from "react-redux"
 
 import { Container } from "../components/common"
-import Image from "../components/image"
 import SEO from "../components/seo"
 import { toggleDarkMode } from "../redux/actions"
 

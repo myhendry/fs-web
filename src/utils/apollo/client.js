@@ -13,11 +13,11 @@ import auth from "../../utils/auth0/auth"
 https://github.com/apollographql/subscriptions-transport-ws/issues/333
 */
 
-// const HTTP_URI = `http://localhost:4000/graphql`
-// const WS_URI = `ws://localhost:4000/graphql`
+const HTTP_URI = `http://localhost:4000/graphql`
+const WS_URI = `ws://localhost:4000/graphql`
 
-const HTTP_URI = `https://hendry-gql-server.herokuapp.com/graphql`
-const WS_URI = `wss://hendry-gql-server.herokuapp.com/graphql`
+// const HTTP_URI = `https://hendry-gql-server.herokuapp.com/graphql`
+// const WS_URI = `wss://hendry-gql-server.herokuapp.com/graphql`
 
 const isBrowser = () => typeof window !== "undefined"
 
