@@ -1,8 +1,3 @@
-**TROUBLESHOOT**
-
-Env Variables
-Expired token
-
 ```
 http://localhost:8000/callback
 http://localhost:9000/callback
