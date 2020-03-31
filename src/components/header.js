@@ -23,6 +23,7 @@ const Header = ({ siteTitle }) => {
       </Logo>
       <Intro>{user.email ? `Hi, ${user.email}` : ""}</Intro>
       <Nav>
+        <StyledLink to={`/shop`}>Shop</StyledLink>
         <StyledLink to={`/about`}>About</StyledLink>
         {user.email && (
           <>
