@@ -13,6 +13,13 @@ module.exports = {
     `gatsby-plugin-playground`,
     `gatsby-plugin-styled-components`,
     {
+      resolve: "gatsby-plugin-snipcart",
+      options: {
+        apiKey: process.env.GATSBY_SNIPCART_KEY,
+        autopop: true,
+      },
+    },
+    {
       resolve: `gatsby-source-contentful`,
       options: {
         spaceId: process.env.CONTENTFUL_ID,
