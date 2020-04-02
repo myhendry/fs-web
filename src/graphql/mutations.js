@@ -1,5 +1,11 @@
 import gql from "graphql-tag"
 
+const ASK_PY_SENTIMENT = gql`
+  mutation AskPySentiment($statement: String!) {
+    askPySentiment(statement: $statement)
+  }
+`
+
 const SIGNIN_MUTATION = gql`
   mutation Signin($email: String!, $password: String!) {
     signin(input: { email: $email, password: $password }) {
@@ -16,4 +22,4 @@ const ADD_BOOK_MUTATION = gql`
     }
   }
 `
-export { SIGNIN_MUTATION, ADD_BOOK_MUTATION }
+export { SIGNIN_MUTATION, ADD_BOOK_MUTATION, ASK_PY_SENTIMENT }
