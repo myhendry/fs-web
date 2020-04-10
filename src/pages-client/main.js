@@ -16,6 +16,8 @@ const Main = () => {
     BOOK_ADDED_SUBSCRIPTION
   )
 
+  console.log(subscribedData, subscribedLoading)
+
   useEffect(() => {
     const unsubscribe = subscribeToMore({
       document: BOOK_ADDED_SUBSCRIPTION,

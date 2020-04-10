@@ -1,7 +1,7 @@
 import gql from "graphql-tag"
 
 const BOOK_ADDED_SUBSCRIPTION = gql`
-  subscription {
+  subscription BookAdded {
     bookAdded {
       id
       title
