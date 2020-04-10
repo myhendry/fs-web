@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import lottie from "lottie-web"
 import styled from "styled-components"
 
+import { Video } from "../components/common"
 import animation from "../animations/17895-wear-mask.json"
 import { Container } from "../components/common"
 import SEO from "../components/seo"
@@ -42,6 +43,12 @@ const IndexPage = props => {
       <div>
         <AnimationContainer ref={animationContainer} />
       </div>
+      <section>
+        <Video
+          videoSrcURL="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          videoTitle="Official Music Video on YouTube"
+        />
+      </section>
     </Container>
   )
 }
